@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('tour_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tour_id')->constrained('tours')->cascadeOnDelete()->comment('Tour');
+            $table->foreignId('tour_id')->constrained('tours')->cascadeOnDelete()->comment('ModelTour');
 
-            $table->tinyInteger('passenger_type')->comment('Loại hành khách: 0=Người lớn, 1=Trẻ em, 2=Em bé');
+            $table->tinyInteger('passenger_type')->comment('Loáº¡i hÃ nh khÃ¡ch: 0=NgÆ°á»i lá»›n, 1=Tráº» em, 2=Em bÃ©');
 
-            $table->unsignedBigInteger('price')->comment('Giá tiền');
-            $table->string('currency', 10)->default('VND')->comment('Đơn vị tiền tệ');
-            $table->text('includes')->nullable()->comment('Đã bao gồm');
-            $table->text('excludes')->nullable()->comment('Chưa bao gồm');
+            $table->unsignedBigInteger('price')->comment('GiÃ¡ tiá»n');
+            $table->string('currency', 10)->default('VND')->comment('ÄÆ¡n vá»‹ tiá»n tá»‡');
+            $table->text('includes')->nullable()->comment('ÄÃ£ bao gá»“m');
+            $table->text('excludes')->nullable()->comment('ChÆ°a bao gá»“m');
 
             $table->timestamps();
 
@@ -32,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('tour_prices');
     }
 };
+

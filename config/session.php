@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Support\Str;
 
@@ -51,7 +51,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session File Location
+    | Session File ModelLocation
     |--------------------------------------------------------------------------
     |
     | When utilizing the "file" session driver, the session files are placed
@@ -215,3 +215,4 @@ return [
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
 
 ];
+

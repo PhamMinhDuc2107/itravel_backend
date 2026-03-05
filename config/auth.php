@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 return [
 
@@ -44,7 +44,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Providers
+    | ModelUser Providers
     |--------------------------------------------------------------------------
     |
     | All authentication guards have a user provider, which defines how the
@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Infrastructure\Database\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Infrastructure\Database\Models\ModelUser::class),
         ],
 
         // 'users' => [
@@ -113,3 +113,4 @@ return [
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
 ];
+

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -10,17 +10,17 @@ return new class extends Migration
     {
         Schema::create('tour_price_overrides', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tour_id')->constrained('tours')->cascadeOnDelete()->comment('Tour');
-            $table->foreignId('tour_schedule_id')->constrained('tour_schedules')->cascadeOnDelete()->comment('Lịch trình tour');
+            $table->foreignId('tour_id')->constrained('tours')->cascadeOnDelete()->comment('ModelTour');
+            $table->foreignId('tour_schedule_id')->constrained('tour_schedules')->cascadeOnDelete()->comment('Lá»‹ch trÃ¬nh tour');
 
-            $table->date('departure_date')->comment('Ngày khởi hành');
+            $table->date('departure_date')->comment('NgÃ y khá»Ÿi hÃ nh');
 
-            $table->unsignedBigInteger('adult_price')->nullable()->comment('Giá người lớn');
-            $table->unsignedBigInteger('child_price')->nullable()->comment('Giá trẻ em');
-            $table->unsignedBigInteger('infant_price')->nullable()->comment('Giá em bé');
+            $table->unsignedBigInteger('adult_price')->nullable()->comment('GiÃ¡ ngÆ°á»i lá»›n');
+            $table->unsignedBigInteger('child_price')->nullable()->comment('GiÃ¡ tráº» em');
+            $table->unsignedBigInteger('infant_price')->nullable()->comment('GiÃ¡ em bÃ©');
 
-            $table->tinyInteger('is_active')->default(1)->comment('Trạng thái: 0=Không hoạt động, 1=Hoạt động');
-            $table->text('note')->nullable()->comment('Ghi chú');
+            $table->tinyInteger('is_active')->default(1)->comment('Tráº¡ng thÃ¡i: 0=KhÃ´ng hoáº¡t Ä‘á»™ng, 1=Hoáº¡t Ä‘á»™ng');
+            $table->text('note')->nullable()->comment('Ghi chÃº');
 
             $table->timestamps();
 
@@ -39,3 +39,4 @@ return new class extends Migration
         Schema::dropIfExists('tour_price_overrides');
     }
 };
+

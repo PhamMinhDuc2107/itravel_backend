@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Database\Models;
 
 use App\Domain\Enums\StatusStateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AdminRefreshToken extends Model
+class AdminRefreshTokenModel extends Model
 {
     protected $fillable = [
-        'user_id',
+        'admin_id',
         'token',
         'user_agent',
         'ip_address',
@@ -22,9 +24,9 @@ class AdminRefreshToken extends Model
         'expires_at' => 'datetime',
     ];
 
-    public function user(): BelongsTo
+    public function admin(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(AdminModel::class, 'admin_id');
     }
 
     public function isExpired(): bool

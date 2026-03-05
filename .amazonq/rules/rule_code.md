@@ -90,8 +90,6 @@ Error Handling: Never return generic or raw exceptions to the controller. Use Do
 
 API Responses: Always use Laravel Resources to format responses uniformly. Do not return raw arrays from Controllers.
 
-at the top of every file. Use explicit argument types and return types.
-
 6. Performance & Security
    Solve N+1 queries using eager loading (with()) in Repositories.
 

@@ -9,7 +9,6 @@ final class AdminRefreshTokenDTO
     public function __construct(
         public readonly int $adminId,
         public readonly string $refreshToken,
-        public readonly array $data = [],
         public readonly array $context = [],
     ) {}
 }

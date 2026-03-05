@@ -45,7 +45,6 @@ class AdminAuthController
         $dto = new AdminRefreshTokenDTO(
             adminId: (int) $request->integer('admin_id'),
             refreshToken: (string) $request->string('refresh_token'),
-            data: (array) $request->input('data', []),
             context: (array) $request->input('context', []),
         );
 

@@ -26,15 +26,12 @@ final class AdminRefreshTokenUseCase
             throw new UnauthorizedException('Admin khong ton tai hoac da bi khoa');
         }
 
-        $data = $dto->data;
-        if ($data === []) {
-            $data = [
-                'admin_id' => $admin->id,
-                'name' => $admin->name,
-                'email' => $admin->email,
-                'status' => $admin->status->value,
-            ];
-        }
+        $data = [
+            'admin_id' => $admin->id,
+            'name' => $admin->name,
+            'email' => $admin->email,
+            'status' => $admin->status->value,
+        ];
 
         if (!$this->adminRefreshTokenRepository->isValidToken($dto->adminId, $dto->refreshToken)) {
             throw new UnauthorizedException('Refresh token khong hop le hoac da het han');

@@ -16,7 +16,6 @@ final class AdminRefreshTokenRequest extends BaseAdminRequest
         return [
             'admin_id' => ['required', 'integer', 'min:1'],
             'refresh_token' => ['required', 'string', 'min:32'],
-            'data' => ['sometimes', 'array'],
             'context' => ['sometimes', 'array'],
         ];
     }

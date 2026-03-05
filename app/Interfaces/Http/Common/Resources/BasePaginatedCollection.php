@@ -43,7 +43,7 @@ abstract class BasePaginatedCollection extends ResourceCollection
         return array_merge([
             'version' => env('API_VERSION', '1.0.0'),
             'timestamp' => now()->toIso8601String(),
-        ], $this->meta);
+        ], $this->paginationMeta(), $this->seoMeta(), $this->meta);
     }
 
     /**

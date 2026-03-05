@@ -18,6 +18,11 @@ interface JwtServiceInterface
      */
     public function validateAccessToken(string $token): array;
 
+    /**
+     * @param array<string, scalar|array|null> $payload
+     */
+    public function getAdminIdFromPayload(array $payload): int;
+
     public function getAdminIdFromToken(string $token): int;
 
     public function getAccessTokenTtl(): int;

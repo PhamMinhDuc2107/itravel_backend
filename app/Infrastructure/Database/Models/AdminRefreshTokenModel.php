@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Database\Models;
 
-use App\Domain\Enums\StatusStateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,7 +21,7 @@ class AdminRefreshTokenModel extends Model
     ];
 
     protected $casts = [
-        'is_revoked' => StatusStateEnum::class,
+        'is_revoked' => 'boolean',
         'expires_at' => 'datetime',
     ];
 
@@ -38,6 +37,6 @@ class AdminRefreshTokenModel extends Model
 
     public function isValid(): bool
     {
-        return !$this->is_revoked->isActive() && !$this->isExpired();
+        return !$this->is_revoked && !$this->isExpired();
     }
 }

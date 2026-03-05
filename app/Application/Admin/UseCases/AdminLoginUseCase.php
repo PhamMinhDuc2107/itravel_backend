@@ -25,11 +25,13 @@ final class AdminLoginUseCase
     public function execute(AdminLoginDTO $dto): AdminAuthResultDTO
     {
         $admin = $this->adminRepository->findByEmail($dto->email);
+        $passwordHash = $admin?->password;
+        $isPasswordValid = Hash::check($dto->password, $passwordHash);
 
         if (
             $admin === null
             || !$admin->isActive()
-            || !Hash::check($dto->password, $admin->password)
+            || !$isPasswordValid
         ) {
             throw new UnauthorizedException('Thong tin dang nhap khong hop le');
         }
@@ -58,7 +60,7 @@ final class AdminLoginUseCase
                 accessToken: $accessToken,
                 refreshToken: $rawRefreshToken,
                 refreshExpiresAt: $refreshExpiresAt,
-                expiresIn: null,
+                expiresIn: $this->jwtService->getAccessTokenTtl(),
             );
 
             return $resultDto;

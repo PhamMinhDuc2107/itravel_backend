@@ -32,10 +32,16 @@ class JwtService implements JwtServiceInterface
         ], $claims);
 
         $ttlMinutes = max(1, (int) ceil($this->accessTokenTtl / 60));
+        $factory = JWTAuth::factory();
+        $originalTtl = $factory->getTTL();
 
-        JWTAuth::factory()->setTTL($ttlMinutes);
+        $factory->setTTL($ttlMinutes);
 
-        return JWTAuth::claims($jwtClaims)->fromSubject($this->buildSubject($adminId));
+        try {
+            return JWTAuth::claims($jwtClaims)->fromSubject($this->buildSubject($adminId));
+        } finally {
+            $factory->setTTL($originalTtl);
+        }
     }
 
     private function buildSubject(int $adminId): JWTSubject
@@ -70,6 +76,12 @@ class JwtService implements JwtServiceInterface
     public function getAdminIdFromToken(string $token): int
     {
         $payload = $this->validateAccessToken($token);
+
+        return $this->getAdminIdFromPayload($payload);
+    }
+
+    public function getAdminIdFromPayload(array $payload): int
+    {
 
         if (isset($payload['sub']) && is_numeric($payload['sub'])) {
             return (int) $payload['sub'];

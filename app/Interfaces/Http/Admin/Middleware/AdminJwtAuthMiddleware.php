@@ -27,7 +27,7 @@ class AdminJwtAuthMiddleware
 
         $token = trim($matches[1]);
         $payload = $this->jwtService->validateAccessToken($token);
-        $adminId = $this->jwtService->getAdminIdFromToken($token);
+        $adminId = $this->jwtService->getAdminIdFromPayload($payload);
         $admin = $this->adminRepository->findActiveById($adminId);
 
         if ($admin === null) {

@@ -29,20 +29,20 @@ class AdminRepository extends BaseRepository implements AdminRepositoryInterface
         parent::__construct($model);
     }
 
-    public function findByEmail(string $email, array $columns = self::DEFAULT_ADMIN_COLUMNS): ?AdminEntity
+    public function findByEmail(string $email): ?AdminEntity
     {
         $adminModel = AdminModel::query()
-            ->select($columns)
+            ->select(self::DEFAULT_ADMIN_COLUMNS)
             ->where('email', $email)
             ->first();
 
         return $this->toEntity($adminModel);
     }
 
-    public function findActiveById(int $adminId, array $columns = self::DEFAULT_ADMIN_COLUMNS): ?AdminEntity
+    public function findActiveById(int $adminId): ?AdminEntity
     {
         $adminModel = AdminModel::query()
-            ->select($columns)
+            ->select(self::DEFAULT_ADMIN_COLUMNS)
             ->where('id', $adminId)
             ->where('status', StatusStateEnum::ACTIVE->value)
             ->first();

@@ -41,7 +41,7 @@ abstract class BaseResource extends JsonResource
     protected function buildMeta(): array
     {
         return array_merge([
-            'version' => env('API_VERSION', '1.0.0'),
+            'version' => config('app.api_version', '1.0.0'),
             'timestamp' => now()->toIso8601String(),
         ], $this->meta);
     }

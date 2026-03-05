@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Database\Repositories;
 
-use App\Domain\Enums\StatusStateEnum;
 use App\Domain\Repositories\AdminRefreshTokenRepositoryInterface;
 use App\Infrastructure\Database\Models\AdminRefreshTokenModel;
+use App\Domain\Enums\StatusStateEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +26,7 @@ final class AdminRefreshTokenRepository implements AdminRefreshTokenRepositoryIn
             'user_agent' => $userAgent,
             'ip_address' => $ipAddress,
             'expires_at' => Carbon::now()->addSeconds($ttlSeconds),
-            'is_revoked' => StatusStateEnum::INACTIVE,
+            'is_revoked' => false,
         ]);
 
         return (string) $refreshToken->expires_at;
@@ -34,31 +34,16 @@ final class AdminRefreshTokenRepository implements AdminRefreshTokenRepositoryIn
 
     public function isValidToken(int $adminId, string $plainToken): bool
     {
-        $refreshTokens = $this->validTokenCandidatesQuery($adminId)
-            ->select(['id', 'token'])
-            ->get();
-
-        foreach ($refreshTokens as $refreshToken) {
-            if (Hash::check($plainToken, (string) $refreshToken->token)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->findMatchingToken($adminId, $plainToken) !== null;
     }
 
     public function revokeToken(int $adminId, string $plainToken): bool
     {
-        $refreshTokens = $this->validTokenCandidatesQuery($adminId)
-            ->select(['id', 'token'])
-            ->get();
+        $refreshToken = $this->findMatchingToken($adminId, $plainToken);
+        if ($refreshToken !== null) {
+            $refreshToken->update(['is_revoked' => true]);
 
-        foreach ($refreshTokens as $refreshToken) {
-            if (Hash::check($plainToken, (string) $refreshToken->token)) {
-                $refreshToken->update(['is_revoked' => StatusStateEnum::ACTIVE]);
-
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -67,7 +52,7 @@ final class AdminRefreshTokenRepository implements AdminRefreshTokenRepositoryIn
     public function revokeAllTokens(int $adminId): int
     {
         return $this->validTokenCandidatesQuery($adminId)
-            ->update(['is_revoked' => StatusStateEnum::ACTIVE]);
+            ->update(['is_revoked' => true]);
     }
 
     public function cleanupExpiredTokens(): int
@@ -81,10 +66,25 @@ final class AdminRefreshTokenRepository implements AdminRefreshTokenRepositoryIn
     {
         return AdminRefreshTokenModel::query()
             ->where('user_id', $adminId)
-            ->where('is_revoked', StatusStateEnum::INACTIVE)
+            ->where('is_revoked', false)
             ->where('expires_at', '>', now())
             ->whereHas('admin', static function (Builder $query): void {
                 $query->where('status', StatusStateEnum::ACTIVE->value);
             });
+    }
+
+    private function findMatchingToken(int $adminId, string $plainToken): ?AdminRefreshTokenModel
+    {
+        $refreshTokens = $this->validTokenCandidatesQuery($adminId)
+            ->select(['id', 'token'])
+            ->get();
+
+        foreach ($refreshTokens as $refreshToken) {
+            if (Hash::check($plainToken, (string) $refreshToken->token)) {
+                return $refreshToken;
+            }
+        }
+
+        return null;
     }
 }

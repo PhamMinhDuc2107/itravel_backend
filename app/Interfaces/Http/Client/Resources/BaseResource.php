@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Interfaces\Http\Client\Resources;
 
 use Carbon\Carbon;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use App\Interfaces\Http\Common\Resources\BaseResource as CommonBaseResource;
 
-abstract class BaseResource extends JsonResource
+abstract class BaseResource extends CommonBaseResource
 {
-    public function toArray($request): array
+    protected function data(Request $request): ?array
     {
         return $this->resource->toArray();
     }

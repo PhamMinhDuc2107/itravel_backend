@@ -22,3 +22,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/.github
+/.gitlab
+/.vscode
+/.idea
+/.amazonq

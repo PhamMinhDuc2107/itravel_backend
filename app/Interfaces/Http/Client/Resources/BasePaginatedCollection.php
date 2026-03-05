@@ -1,27 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Interfaces\Http\Client\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Interfaces\Http\Common\Resources\BasePaginatedCollection as CommonBasePaginatedCollection;
 
-abstract class BasePaginatedCollection extends ResourceCollection
+abstract class BasePaginatedCollection extends CommonBasePaginatedCollection
 {
-    public function toArray($request): array
-    {
-        return [
-            'data' => $this->collection,
-            'meta' => [
-                'current_page' => $this->currentPage(),
-                'last_page' => $this->lastPage(),
-                'per_page' => $this->perPage(),
-                'total' => $this->total(),
-            ],
-            'links' => [
-                'first' => $this->url(1),
-                'last' => $this->url($this->lastPage()),
-                'prev' => $this->previousPageUrl(),
-                'next' => $this->nextPageUrl(),
-            ],
-        ];
-    }
 }

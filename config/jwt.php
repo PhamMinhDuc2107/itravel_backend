@@ -13,5 +13,5 @@ return [
 
     'algorithm' => env('JWT_ALGORITHM', 'HS256'),
 
-    'secret_key' => env('JWT_SECRET_KEY', env('APP_KEY')),
+    'secret' => env('JWT_SECRET', env('JWT_SECRET_KEY', env('APP_KEY'))),
 ];

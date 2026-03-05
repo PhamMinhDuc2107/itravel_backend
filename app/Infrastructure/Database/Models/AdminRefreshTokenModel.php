@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AdminRefreshTokenModel extends Model
 {
+    protected $table = 'admin_refresh_tokens';
+
     protected $fillable = [
-        'admin_id',
+        'user_id',
         'token',
         'user_agent',
         'ip_address',
@@ -26,7 +28,7 @@ class AdminRefreshTokenModel extends Model
 
     public function admin(): BelongsTo
     {
-        return $this->belongsTo(AdminModel::class, 'admin_id');
+        return $this->belongsTo(AdminModel::class, 'user_id');
     }
 
     public function isExpired(): bool

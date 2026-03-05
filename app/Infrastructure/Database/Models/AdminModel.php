@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class AdminModel extends Authenticatable
+class AdminModel extends Authenticatable implements JWTSubject
 {
     use HasFactory;
     use Notifiable;
@@ -42,5 +43,15 @@ class AdminModel extends Authenticatable
     public function refreshTokens(): HasMany
     {
         return $this->hasMany(AdminRefreshTokenModel::class, 'admin_id');
+    }
+
+    public function getJWTIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

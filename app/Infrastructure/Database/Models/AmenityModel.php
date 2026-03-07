@@ -12,6 +12,12 @@ class AmenityModel extends Model
 {
     use HasFactory;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'icon',
+        'type',
+    ];
+
     protected $fillable = [
         'name',
         'icon',
@@ -28,5 +34,13 @@ class AmenityModel extends Model
     public function hotelRooms(): BelongsToMany
     {
         return $this->belongsToMany(HotelRoomModel::class, 'hotel_room_amenities');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

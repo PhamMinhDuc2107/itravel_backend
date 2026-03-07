@@ -15,6 +15,12 @@ class HotelTypeModel extends Model
     use HasFactory;
     use HasSlug;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'slug',
+        'icon',
+    ];
+
     protected $table = 'hotel_types';
 
     protected $fillable = [
@@ -35,5 +41,13 @@ class HotelTypeModel extends Model
     public function hotels(): HasMany
     {
         return $this->hasMany(HotelModel::class);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

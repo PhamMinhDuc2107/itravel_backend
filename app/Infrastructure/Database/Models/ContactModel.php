@@ -14,6 +14,14 @@ class ContactModel extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'full_name',
+        'email',
+        'phone',
+        'subject',
+        'message',
+    ];
+
     protected $fillable = [
         'full_name',
         'email',
@@ -34,5 +42,13 @@ class ContactModel extends Model
     public function resolver(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'resolved_by');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

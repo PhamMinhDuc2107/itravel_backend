@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Database\Models;
 
+use App\Infrastructure\Database\Models\HotelRoomImageModel;
+use App\Infrastructure\Database\Models\HotelRoomPriceOverrideModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

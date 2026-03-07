@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Services\External;
 
 use App\Domain\Exceptions\FileUploadException;
+use App\Infrastructure\Services\Contracts\FileStorageServiceInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class FileSystemManager
+final class FileSystemManager implements FileStorageServiceInterface
 {
     private array $allowedExtensions;
     private int $maxSizeInMb;
@@ -62,7 +65,11 @@ class FileSystemManager
 
     public function getUrl(string $path, string $disk = 'public'): string
     {
-        return Storage::disk($disk)->url($path);
+        if ($disk === 'public') {
+            return '/storage/' . ltrim($path, '/');
+        }
+
+        return $path;
     }
 
     public function exists(string $path, string $disk = 'public'): bool

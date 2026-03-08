@@ -18,6 +18,12 @@ class NewsCategoryModel extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'slug',
+        'description',
+    ];
+
     protected $table = 'news_categories';
 
     protected $fillable = [
@@ -50,5 +56,13 @@ class NewsCategoryModel extends Model
     public function news(): HasMany
     {
         return $this->hasMany(NewsModel::class, 'news_category_id');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

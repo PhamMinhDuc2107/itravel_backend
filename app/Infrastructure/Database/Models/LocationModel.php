@@ -19,6 +19,14 @@ class LocationModel extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'slug',
+        'type',
+        'code',
+        'description',
+    ];
+
     protected $fillable = [
         'parent_id',
         'name',
@@ -69,5 +77,13 @@ class LocationModel extends Model
     {
         return $this->belongsToMany(TourModel::class, 'tour_locations')
             ->withPivot(['role', 'sort']);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

@@ -11,6 +11,15 @@ class CompanySettingModel extends Model
 {
     use HasFactory;
 
+    public const SEARCHABLE_COLUMNS = [
+        'company_name',
+        'company_name_en',
+        'email',
+        'phone',
+        'website',
+        'address',
+    ];
+
     protected $fillable = [
         'company_name',
         'company_name_en',
@@ -56,4 +65,12 @@ class CompanySettingModel extends Model
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
     ];
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
+    }
 }

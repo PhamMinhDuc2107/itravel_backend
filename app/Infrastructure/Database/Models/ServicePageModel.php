@@ -17,6 +17,13 @@ class ServicePageModel extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'slug',
+        'excerpt',
+        'content',
+    ];
+
     protected $fillable = [
         'category_id',
         'name',
@@ -53,5 +60,13 @@ class ServicePageModel extends Model
     public function updater(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'updated_by');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

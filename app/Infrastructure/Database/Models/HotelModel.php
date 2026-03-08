@@ -20,6 +20,15 @@ class HotelModel extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'name',
+        'slug',
+        'address',
+        'ward',
+        'district',
+        'description',
+    ];
+
     protected $fillable = [
         'location_id',
         'hotel_type_id',
@@ -99,5 +108,13 @@ class HotelModel extends Model
     public function reviews(): MorphMany
     {
         return $this->morphMany(HotelReviewModel::class, 'reviewable');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }

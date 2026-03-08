@@ -17,6 +17,13 @@ class NewsModel extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const SEARCHABLE_COLUMNS = [
+        'title',
+        'slug',
+        'excerpt',
+        'content',
+    ];
+
     protected $table = 'news';
 
     protected $fillable = [
@@ -54,5 +61,13 @@ class NewsModel extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'author_id');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function searchableColumns(): array
+    {
+        return self::SEARCHABLE_COLUMNS;
     }
 }
